@@ -4,7 +4,7 @@ HEALTHCHECK --retries=3 --timeout=60s CMD curl localhost
 EXPOSE 80
 
 COPY ./app.conf /etc/apache2/sites-enabled/000-default.conf
-COPY ./wp-config-sample.php /var/www/html/app/config/wp-config.php
+COPY ./wp-config-sample.php /var/www/html/app/wordpress/wp-config.php
 
 ENV webroot=/var/www/html/app
 ENV phplog=/var/log/php/php.log
