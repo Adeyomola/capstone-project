@@ -31,6 +31,6 @@ WORKDIR $webroot
 RUN ["/bin/bash", "-c", "tar -xzvf latest.tar.gz && chmod 755 -R $webroot && chown www-data:www-data -R $webroot"]
 
 WORKDIR $app
-RUN ["/bin/bash", "-c", "chmod 755 -R $app && chown www-data:www-data -R $app && config_editor.sh"]
+RUN ["/bin/bash", "-c", "chmod 755 -R $app && chown www-data:www-data -R $app"]
 
-ENTRYPOINT ["/bin/bash", "-c", "service apache2 restart && tail -f /dev/null"]
+ENTRYPOINT ["/bin/bash", "-c", "config_editor.sh && service apache2 restart && tail -f /dev/null"]
