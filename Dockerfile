@@ -5,9 +5,10 @@ EXPOSE 80
 
 COPY ./scripts/config_editor.sh /usr/local/bin/
 COPY ./app.conf /etc/apache2/sites-enabled/000-default.conf
-COPY ./wp-config-sample.php /var/www/html/app/wordpress/wp-config.php
+COPY ./wp-config-sample.php /var/www/html/wordpress/wp-config.php
 
 ENV webroot=/var/www/html/
+ENV app=/var/www/html/wordpress
 ENV phplog=/var/log/php/php.log
 
 ARG url=http://wordpress.org/latest.tar.gz
@@ -27,4 +28,7 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli bcmath zip gd
 WORKDIR $webroot
 RUN ["/bin/bash", "-c", "tar -xzvf latest.tar.gz && chmod 755 -R $webroot && chown www-data:www-data -R $webroot"]
 
-ENTRYPOINT ["/bin/bash", "-c", "config_editor.sh && service apache2 restart && tail -f /dev/null"]
+WORKDIR $app
+RUN ["/bin/bash", "-c", "chmod 755 -R $app && chown www-data:www-data -R $app && config_editor.sh"]
+
+ENTRYPOINT ["/bin/bash", "-c", "service apache2 restart && tail -f /dev/null"]
