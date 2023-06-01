@@ -3,6 +3,7 @@ FROM php:8.1-apache-bullseye
 HEALTHCHECK --retries=3 --timeout=60s CMD curl localhost
 EXPOSE 80
 
+COPY ./scripts/config_editor.sh /usr/local/bin/
 COPY ./app.conf /etc/apache2/sites-enabled/000-default.conf
 COPY ./wp-config-sample.php /var/www/html/app/wordpress/wp-config.php
 
