@@ -1,0 +1,55 @@
+version: '3'
+
+networks:
+  laravel:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    container_name: app
+    volumes:
+      - ./app.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./logs/apache/:/var/log/apache2/
+      - ./logs/php:/var/log/php/
+    working_dir: /var/www/html/app
+    ports:
+      - "8090:80"
+    environment:
+      TZ: UTC+1
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+    networks:
+      - laravel
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+#    healthcheck:
+#      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+#      retries: 3
+#      timeout: 60s
+    volumes:
+      - ./logs/mysql:/var/log
+      - ./logs/mysql/.mysqlsh.log:/root/.mysqlsh/.mysqlsh.log
+      - ./data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD} 
+      SERVICE_TAGS: dev-env
+    networks:
+      - laravel
