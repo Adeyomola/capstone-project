@@ -6,7 +6,7 @@ EXPOSE 80
 COPY ./app.conf /etc/apache2/sites-enabled/000-default.conf
 COPY ./wp-config-sample.php /var/www/html/app/wordpress/wp-config.php
 
-ENV webroot=/var/www/html/app
+ENV webroot=/var/www/html/
 ENV phplog=/var/log/php/php.log
 
 ARG url=http://wordpress.org/latest.tar.gz
