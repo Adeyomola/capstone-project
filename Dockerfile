@@ -3,10 +3,12 @@ FROM php:8.1-apache-bullseye
 HEALTHCHECK --retries=3 --timeout=60s CMD curl localhost
 EXPOSE 80
 
+# copy wp-config editor and apache config to container.
 COPY ./scripts/config_editor.sh /usr/local/bin/
 COPY ./app.conf /etc/apache2/sites-enabled/000-default.conf
-COPY ./wp-config-sample.php /var/www/html/wordpress/wp-config.php
+#COPY ./wp-config-sample.php /var/www/html/wordpress/wp-config.php
 
+# environment variables
 ENV webroot=/var/www/html/
 ENV app=/var/www/html/wordpress
 ENV phplog=/var/log/php/php.log
