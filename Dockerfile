@@ -18,7 +18,7 @@ ARG url=http://wordpress.org/latest.tar.gz
 # Install wget, tar, and other tools.
 # PHP log file in php.ini. Then create phplog file and change its owner
 RUN ["/bin/bash", "-c", "apt update -y && apt install git wget tar zlib1g-dev libzip-dev libpng-dev -y \
-&& wget -c $url $webroot \
+&& wget -O $webroot $url \
 && echo 'error_log = $phplog' >> /usr/local/etc/php/php.ini-development \
 && echo 'error_log = $phplog' >> /usr/local/etc/php/php.ini-production \
 && echo 'ServerName 127.0.0.1' >> /etc/apache2/apache2.conf \
