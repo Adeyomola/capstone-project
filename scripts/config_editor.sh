@@ -1,10 +1,7 @@
 #! /bin/bash
 
-sed -i "s|APP_URL.\+|APP_URL=http://localhost|" .env
-sed -i "s/APP_PORT.\+/#APP_PORT/" .env
-sed -i "s/DB_CONNECTION.\+/DB_CONNECTION=mysql/" .env
-sed -i "s|DB_HOST.\+|DB_HOST=$DB_HOST|" .env
-sed -i "s|DB_PORT.\+|DB_PORT=$DB_PORT|" .env
-sed -i "s|DB_DATABASE.\+|DB_DATABASE=$DB_DATABASE|" .env
-sed -i "s|DB_USERNAME.\+|DB_USERNAME=$DB_USERNAME|" .env
-sed -i "s|DB_PASSWORD.\+|DB_PASSWORD=$DB_PASSWORD|" .env
+mv wp-config-sample.php wp-config.php
+
+sed -i "s|database_name_here.\+|$DB_DATABASE|" wp-config.php
+sed -i "s|username_here.\+|$DB_USERNAME|" wp-config.php
+sed -i "s|password_here.\+|$DB_PASSWORD|" wp-config.php
